@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:complexType name="Project">
+        <xs:annotation>
+            <xs:documentation>A temporary endeavor undertaken to create one or more unique AM products or AM services. Links to all other information; may include platform, criticality, sponsors, material DB ID, organization, distribution control (e.g., ITAR restricted or not).</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="projectID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Reference to the associated Project that produced this build. Links to Project record</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectCreator" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Organization that created the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectSponsor" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Provider of money and requirements for the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectOwningOrganization" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Organization that owns the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectDistributionStatement" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Documentation of any restrictions of access or distribution of the data collected and analyzed under this project, by organizations other than the authoritative source</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectRequirements" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Documented requirements for the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectPlan" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Document describing how project is to be conducted, organized, etc.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectStart" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Start date of project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectEnd" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>End date of project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="projectBuilds" type="BuildType">
+                <xs:annotation>
+                    <xs:documentation>Build(s) associated with project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectStandards" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Set of standards used in project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectQualityControlPlan" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Document describing the quality control plan for the the site performing the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectQualityProcessControlPlan" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Document describing the quality process control plan for the the site performing the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectDeliveryDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Requested delivery date of project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectDistributionControl" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>ITAR-like restrictions</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="projectDataset" type="DatasetMetadata">
+                <xs:annotation>
+                    <xs:documentation>Datasets generated from the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectReport" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Reports of the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="projectDataManagementPlan" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Data management plan of the project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildParameters">
+        <xs:sequence>
+            <xs:element name="buildPlatformPreheatTemperature" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Temperature setting the build platform is heated to prior to print</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformLevelingMethod" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description of the method of platform leveling  procedures and tools</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="1" name="buildPlatformZStartPosition" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Z position of top of build plate prior to starting a build. Must be a part of the setup procedures</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformPreheatStrategy" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Objective for the heating process</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformPreheatProfile" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Heating profile setting for reaching pre-heat temperature</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="layerThickness" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Setting for the incremental distance between built layers</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildEnvironmentTemperature" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Build environment/chamber temperature is important to some FDM processes; Bob will provide a definition</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildCommandData" type="DatasetMetadata"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="partDesign">
+        <xs:annotation>
+            <xs:documentation>Detailed information for the design of a part - STL, AM CAD, reverse engineered model. The part design, from which a physical object can be printed on an AM system</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="designID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>An identifier for the part design</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="designDeveloper" type="Person">
+                <xs:annotation>
+                    <xs:documentation>Reference to personnel who created CAD file. Links to Personnel foreign key</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="designSoftware" type="Software">
+                <xs:annotation>
+                    <xs:documentation>Reference to CAD software name/version. Links to Software foreign key</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partCriticality" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Criticality designation of part or parts to be developed in this project</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partRequrements" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Document describing requirements or goals for components/specimens to be manufactured</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partDesignAugmentedSource" type="Document">
+                <xs:annotation>
+                    <xs:documentation>File (or pointer to file) containing source CAD for the augmented part design, complete with augmentation for support structures and other AM-specific data</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reverseEngineeredModel" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Point cloud scanned AM part model brought back in to the CAD application for feedback and analysis</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partRevNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Revision number of the part design</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="objectDefinitionFile" type="Document">
+                <xs:annotation>
+                    <xs:documentation>File that pertains to the part design description</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partDesignPromarySourceFile" type="Document">
+                <xs:annotation>
+                    <xs:documentation>File (or pointer to file) containing source CAD for the primary part design, without augmentation for support structures</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="derivedFromPartDesign" type="partDesign">
+                <xs:annotation>
+                    <xs:documentation>Part Design of original part this object is derived from (if applicable)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildSimulation">
+        <xs:annotation>
+            <xs:documentation>Data used and generated from computer programs using physics based models: including the models and the simulation outputs</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="simulationID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>UID for specific simulation</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="simulationModel" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Physical phenomenon covered, mathematical equations</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="simulationSoftware" type="Software">
+                <xs:annotation>
+                    <xs:documentation>Software information</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="simulationInputs" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Parameters used for simulations</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="simulatioOutputs" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Simulation results</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="modelDomain" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Focal area of model</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="modelDefinition" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Documentation of how model is constructed (equations, I/O)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SynthesizedData">
+        <xs:annotation>
+            <xs:documentation>Data that has been reduced from its original raw form and often indicates clearer, more human-friendly, interpretable results. This could include; statistical or trend related results, material cards (for design/simulation), or similar</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="synthesizedDataMethod" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The method used to synthesize the data</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="synthesizedDataSoftware" type="Software">
+                <xs:annotation>
+                    <xs:documentation>The software used to synthesize the data</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="synthesisDocument" type="Document"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="organizationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Government"/>
+            <xs:enumeration value="University"/>
+            <xs:enumeration value="Private sector"/>
+            <xs:enumeration value="Non-profit"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Qualification">
+        <xs:sequence>
+            <xs:element name="qualificationType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="OrganizationQualification"/>
+                        <xs:enumeration value="PersonQualification"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="qualificationLevel" type="xs:string"/>
+            <xs:element name="qualifyingOrganization" type="Organization"/>
+            <xs:element name="personQualificationNumberOfHours" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Country">
+        <xs:sequence>
+            <xs:element name="countryName" type="xs:string"/>
+            <xs:element name="countryAlpha2Code" type="xs:string"/>
+            <xs:element name="countryAlpha3Code" type="xs:string"/>
+            <xs:element name="countryCallingCode" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element name="addressLine1" type="xs:string"/>
+            <xs:element name="addressLine2" type="xs:string"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="stateProvince" type="xs:string"/>
+            <xs:element name="postalCode" type="xs:string"/>
+            <xs:element name="country" type="Country"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhoneNumber">
+        <xs:sequence>
+            <xs:element name="phoneCountry" type="Country"/>
+            <xs:element name="phoneNumber" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Person">
+        <xs:sequence>
+            <xs:element name="personID" type="xs:string"/>
+            <xs:element name="personFirstName" type="xs:string"/>
+            <xs:element name="personLastName" type="xs:string"/>
+            <xs:element name="personRole" type="xs:string"/>
+            <xs:element name="personEmail" type="xs:string"/>
+            <xs:element name="personPhoneNumber" type="PhoneNumber"/>
+            <xs:element minOccurs="0" name="personQualification" type="Qualification"/>
+            <xs:element minOccurs="0" name="personOrganization" type="Organization"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Organization">
+        <xs:sequence>
+            <xs:element name="organizationID" type="xs:string"/>
+            <xs:element name="organizationName" type="xs:string"/>
+            <xs:element name="organizationType" type="organizationType"> </xs:element>
+            <xs:element minOccurs="0" name="organizationQualification" type="Qualification"/>
+            <xs:element name="organizationAddress" type="Address"/>
+            <xs:element name="organizationPhoneNumber" type="PhoneNumber"/>
+            <xs:element name="organizationPointOfContact" type="Person"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Document">
+        <xs:sequence>
+            <xs:element name="documentName" type="xs:string"/>
+            <xs:element name="documentLocation" type="xs:string"/>
+            <xs:element name="documentClassificationLevel" type="xs:string"/>
+            <xs:element name="documentClassificationIPClass" type="xs:string"/>
+            <xs:element name="documentURI" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildType">
+        <xs:annotation>
+            <xs:documentation>A Build is an action to make one or more objects in a single action by an additive manufacturing system. A Build record encompasses all of the data for the build cycle; and single process cycle in which one or more components are built up in layers  in the process chamber of the additive manufacturing system</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="buildID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>An identifier for an AM build</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description of the primary purpose of the Build (end use component, specimens, research, etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="buildSimulation" type="BuildSimulation">
+                <xs:annotation>
+                    <xs:documentation>Reference to Simulation records associated with this build</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="feedstockMaterial" type="Material">
+                <xs:annotation>
+                    <xs:documentation>Material consumed during build</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="quantityOfFeedstockMaterialUsed" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Mass of material used in solidified parts</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="processingMaterial" type="Material">
+                <xs:annotation>
+                    <xs:documentation>Ancillary material used for build, e.g., environmental gas</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatform" type="BuildPlatform"/>
+            <xs:element name="part" type="Part">
+                <xs:annotation>
+                    <xs:documentation>Parts built from this build. One build can have multiple built parts</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlan" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Document that describes the build specifc design intent and requirements. This may include plate layout, witness coupons, object quantity, position/orientation</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildSoftware" type="Software">
+                <xs:annotation>
+                    <xs:documentation>Software used in build</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildOrganization" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Production organization for this build</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildLayout" type="Document"/>
+            <xs:element name="buildJobFile" type="Document"/>
+            <xs:element maxOccurs="1" minOccurs="1" name="amSystem" type="AMSystem">
+                <xs:annotation>
+                    <xs:documentation>AM system used for this build</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="amInSituData" type="AMInsituData">
+                <xs:annotation>
+                    <xs:documentation>Advanced AM in-process monitoring BIG data, is differentiated from processData</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildDuration" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Recorded duration of build cycle</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildLocation" type="Address">
+                <xs:annotation>
+                    <xs:documentation>Place of an AM process</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildCooldownDuration" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Time from build completion to cooling to 100 degrees C</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RawDataValue">
+        <xs:sequence>
+            <xs:element name="rawDataTime" type="xs:dateTime"/>
+            <xs:element name="rawDataValue" type="xs:double"/>
+            <xs:element name="rawDataQuality" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Measurement">
+        <xs:sequence>
+            <xs:element name="measurementValue" type="xs:double"/>
+            <xs:element name="measurementUnit" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="rawDataValues" type="RawDataValue"/>
+            <xs:element name="rawDataAggregationTechnique" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Part">
+        <xs:annotation>
+            <xs:documentation>Instances of part designs in the as-built state</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="partID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Identifier for the built part</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Conventional name for the built part</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="process" type="Process"/>
+            <xs:element name="partDesign" type="partDesign">
+                <xs:annotation>
+                    <xs:documentation>Design information for the built part</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partCoordinateOnBuild" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>The location of the box center of the part, or an accepted reference datum</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partOrientation" type="PartOrientation">
+                <xs:annotation>
+                    <xs:documentation>The orientation of the box</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildPlatform">
+        <xs:sequence>
+            <xs:element name="buildPlatformID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Identifier of a build platform</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformMaterial" type="Material">
+                <xs:annotation>
+                    <xs:documentation>Material type of a build platform</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformMaterialGrade" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Standard grade to which the build platform material product conforms</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformHeight" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Height of the build platform/plate</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformWidth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Width of the build platform/plate</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformDepth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Depth of the build platform/plate</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformProcessingMethods" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Post processing methods of a build platform, e.g., hot rolled and annealed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformSurfaceFinish" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Surface roughness description of the build plate</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformManufacturer" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Build platform manufacturer, links to Organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformCertificationDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>The purchase/certification date of the build platform</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildPlatformCertification" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Link to the build plate certificate</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AMInsituData">
+        <xs:annotation>
+            <xs:documentation>Data generated by in-situ monitoring systems during an AM Build cycle</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="characteristicsType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>characteristics measured, eg, melt pool geometry, melt pool temperature, powder bed surface, exposure surface</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="measurementType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Technique used for the measurement, eg, co-axial optical camera</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="measurementLocation" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The location of what is being monitored, eg, build surface, coaxial melt pool area</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inSituDevice" type="InSituMonitoringSystem">
+                <xs:annotation>
+                    <xs:documentation>Device used for the in-situ measuremen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inSituDeviceSetting" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>in-situ device setting for the measurement, including acquisition settings, for example, camera model, sampling rate, protocol, etc</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="measurementDuration" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DatasetMetadata"/>
+    <xs:complexType name="Material"/>
+    <xs:complexType name="Software"/>
+    <xs:complexType name="Process"/>
+    <xs:complexType name="CartesianCoordinate"/>
+    <xs:complexType name="PartOrientation"/>
+    <xs:complexType name="AMSystem">
+        <xs:annotation>
+            <xs:documentation>Additive Manufacturing System Machine and auxiliary equipment used for additive manufacturing</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="machineAcceptanceDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Date when an AM machine is certified as Installation Qualified (passes the site acceptance test, or Installation qualification)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemProcessType">
+                <xs:annotation>
+                    <xs:documentation>Process category of an AM system defined by ASTM 52900 process categories</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="LaserPowderBedFusionSystem"/>
+                        <xs:enumeration value="ElectronbeamPowderBedFusionSystem"/>
+                        <xs:enumeration value="DirectedEnergyDepositionSystem"/>
+                        <xs:enumeration value="BinderJetSystem"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="systemSubprocessType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Sub Process category of an AM system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineElectricVoltage" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Voltage for an AM Machine's electrical connection</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machinePowerIntensity" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Current intensity required to power an AM Machine</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machinePowerFrequency" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Power frequency for the electrical connection of an AM Machine</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemInstallationQualification" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A certification capturing the basic calibration and test build(s) performed after installation of machine; aka, suite acceptance report,  tied to a machine serial number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemOperationQualification" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A certification capturing process control, maintenance, calibration to ensure a stable process that meets the requirements of a material specification; tied to a machine serial number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemFacility" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Name of the facility where an AM system is installed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineHazmatRequirements" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A document of a link to AM Machine HAZMAT Requirements</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineCapability" type="MachineCapability">
+                <xs:annotation>
+                    <xs:documentation>Vendor provided AM machine specification</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inSituMonitoringSystem" type="InSituMonitoringSystem"/>
+            <xs:element name="specificSubsystem" type="SpecificSubsystem"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MachineCapability">
+        <xs:annotation>
+            <xs:documentation>Vendor-provided AM machine specification</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="processableRawMaterial" type="Material">
+                <xs:annotation>
+                    <xs:documentation>A processable raw material list of an AM machine</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="maximumBuildRate" type="Measurement"/>
+            <xs:element name="minimumLayerThickness" type="Measurement"/>
+            <xs:element name="maximumLayerThickness" type="Measurement"/>
+            <xs:element name="minimumOxygenLevel" type="Measurement"/>
+            <xs:element name="minimumMoistureLevel" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SpecificSubsystem">
+        <xs:sequence>
+            <xs:element name="subsystem" type="SpecificSubsystemType"/>
+            <xs:element name="BuildChamber" type="BuildChamberType">
+                <xs:annotation>
+                    <xs:documentation>Enclosed location within the additive manufacturing system where the parts are fabricated</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildVolume" type="BuildVolume">
+                <xs:annotation>
+                    <xs:documentation>total usable volume available in the machine for building parts</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LaserSystem" type="LaserSystem"> </xs:element>
+            <xs:element name="RecoatingSystem" type="RecoatingSystemType"> </xs:element>
+            <xs:element name="GalvoScanner" type="GalvoScannerType"> </xs:element>
+            <xs:element name="Camera" type="CameraType">
+                <xs:annotation>
+                    <xs:documentation>Optical system by which objects are imaged and recorded</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CameraSubsystem" type="CameraSubsystemType"> </xs:element>
+            <xs:element name="Photodiode" type="PhotodiodeType"> </xs:element>
+            <xs:element name="Pyrometer" type="PyrometerType"> </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="SpecificSubsystemType">
+        <xs:annotation>
+            <xs:documentation>Describes equipment that can be interchanged from AMSystem or InSituMonitoringSystem that would be in use for a build</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BuildChamber"/>
+            <xs:enumeration value="LaserSystem"/>
+            <xs:enumeration value="RecoatingSystem"/>
+            <xs:enumeration value="GalvoScanner"/>
+            <xs:enumeration value="Camera"/>
+            <xs:enumeration value="Photodiode"/>
+            <xs:enumeration value="Pyrometer"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="BuildChamberType">
+        <xs:sequence>
+            <xs:element name="buildEnvironmentalControl" type="BuildEnvironmentalControl">
+                <xs:annotation>
+                    <xs:documentation>Environment control of the build chamber on its temperature, pressure, humidity and oxygen level, for optimal quality of AM material transformation</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildEnvironmentalControl">
+        <xs:annotation>
+            <xs:documentation>Environment control of the build chamber on its temperature, pressure, humidity and oxygen level, for optimal quality of AM material transformation</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="shieldingGasType" type="xs:string"/>
+            <xs:element name="maximumPreheatingTemperature" type="Measurement"/>
+            <xs:element name="gasFlowNozzleType" type="xs:string"/>
+            <xs:element name="shieldingDeviceType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildVolume">
+        <xs:annotation>
+            <xs:documentation>Total usable volume available in the machine for building parts</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="volumeShape" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Shape of a building volume, i.e., 'box' or 'cylinder'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="volumeDimension" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>Width, Depth, Height of a building volume</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="volumeDiameter" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Diameter of a building volume if of cylinder type</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineOrigin" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>Origin X,Y,Z as defined by machine manufacturer relative to build volume center</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="totalBuildVolume" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>The total usable volume available in the AM System</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineLastCleanoutDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>The date when the build volume was last cleaned</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LaserSystem">
+        <xs:sequence>
+            <xs:element name="numberOfLasers" type="xs:int"/>
+            <xs:element name="modeOfLaserOperation" type="xs:string"/>
+            <xs:element name="laserType" type="xs:string"/>
+            <xs:element name="maxLaserPower" type="Measurement"/>
+            <xs:element name="minLaserPower" type="Measurement"/>
+            <xs:element name="ratedWaveLength" type="Measurement"/>
+            <xs:element name="beamShape" type="xs:string"/>
+            <xs:element name="beamDiameter" type="Measurement"/>
+            <xs:element name="laserBeamSpotSizeType" type="xs:string"/>
+            <xs:element name="maxBeamSpotSize" type="Measurement"/>
+            <xs:element name="minBeamSpotSize" type="Measurement"/>
+            <xs:element name="focusCorrectionType" type="xs:string"/>
+            <xs:element name="laserManufacturer" type="Organization"/>
+            <xs:element name="laserModelName" type="xs:string"/>
+            <xs:element name="laserSystemSerialNumber" type="xs:string"/>
+            <xs:element name="precisionLensMaterialType" type="Material"/>
+            <xs:element name="laserBeamProfile" type="Document"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RecoatingSystemType">
+        <xs:sequence>
+            <xs:element name="recoatingSystemType" type="xs:string"/>
+            <xs:element name="recoaterMaximumSpeed" type="Measurement"/>
+            <xs:element name="recoaterMaxUsesAllowed" type="xs:int"/>
+            <xs:element name="recoatingBlade" type="RecoatingBlade"/>
+            <xs:element name="roller" type="Roller"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="GalvoScannerType">
+        <xs:sequence>
+            <xs:element name="galvoScannerManufacturer" type="xs:string"/>
+            <xs:element name="galvoScannerModel" type="xs:string"/>
+            <xs:element name="maxScanAngleX" type="Measurement"/>
+            <xs:element name="maxScanAngleY" type="Measurement"/>
+            <xs:element name="galvoScannerRepeatability" type="Measurement"/>
+            <xs:element name="galvoScannerMaxScanSpeed" type="Measurement"/>
+            <xs:element name="galvoScannerCalibrationDate" type="xs:dateTime"/>
+            <xs:element name="galvoScannerOrigin" type="CartesianCoordinate"/>
+            <xs:element name="galvoScannerType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CameraType">
+        <xs:sequence>
+            <xs:element name="cameraImageWidth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Camera image width in pixel</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraBitDepth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Bit depth of pixel values</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastCameraCalibration" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Date of the last camera calibration</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraModel" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Model name of the camera defined by the manufacturer</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraManufacturer" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Manufacture name of the camera</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraImageHeight" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Camera image height in pixel</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraCenter" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>Width, Height center position of a camera in pixels</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraOpticalFilterBandwidth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Bandwidth of a camera's filter bandwidth</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="detectorPitchSize" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Camera detection pitch size</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraDigitalMagnification" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Magnification factor setting of a camera</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lensOpticalMagnification" type="xs:double"/>
+            <xs:element name="minShutterSpeed" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Shutter speed of a camera</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraFrameRate" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Framerate of a camera setting</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraLens" type="CameraLens"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CameraSubsystemType">
+        <xs:sequence>
+            <xs:element name="CameraLens" type="CameraLens"/>
+            <xs:element name="OpticalLensFilter" type="OpticalLensFilterType"> </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhotodiodeType">
+        <xs:sequence>
+            <xs:element name="photodiodeModel" type="xs:string"/>
+            <xs:element name="photodiodeManufacturer" type="Organization"/>
+            <xs:element name="photodiodeOpticalFilterBandwidth" type="Measurement"/>
+            <xs:element name="photodiodeBitDepth" type="Measurement"/>
+            <xs:element name="photodiodeSamplingRate" type="Measurement"/>
+            <xs:element name="lastPhotdiodeCalibration" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PyrometerType">
+        <xs:sequence>
+            <xs:element name="pyrometerModel" type="xs:string"/>
+            <xs:element name="pyrometerManufacturer" type="Organization"/>
+            <xs:element name="pyrometerOpticalFilterBandwidth1" type="Measurement"/>
+            <xs:element name="pyrometerOpticalFilterBandwidth2" type="Measurement"/>
+            <xs:element name="pyrometerBitDepth" type="Measurement"/>
+            <xs:element name="pyrometerSamplingRate" type="Measurement"/>
+            <xs:element name="lastPyrometerCalibration" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RecoatingBlade">
+        <xs:sequence>
+            <xs:element name="bladeId" type="xs:string"/>
+            <xs:element name="recoatingBladeMaterial" type="Material"/>
+            <xs:element name="recoatingBladePartNumber" type="xs:string"/>
+            <xs:element name="recoatingBladeMaterialSpecification" type="Document"/>
+            <xs:element name="recoatingBladeDrawing" type="Document"/>
+            <xs:element name="recoatingRakeAngle" type="Measurement"/>
+            <xs:element name="recoatingClearanceAngle" type="Measurement"/>
+            <xs:element name="recoatingMechanismType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Roller">
+        <xs:sequence>
+            <xs:element name="rollerId" type="xs:string"/>
+            <xs:element name="rollerMaterial" type="Material"/>
+            <xs:element name="rollerDiameter" type="Measurement"/>
+            <xs:element name="maxRollingAngularSpeed" type="Measurement"/>
+            <xs:element name="rollerSpinDirection" type="xs:string"/>
+            <xs:element name="dateOfLastRollerCleaning" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CameraLens">
+        <xs:sequence>
+            <xs:element name="cameraLensAperature" type="Measurement"/>
+            <xs:element name="lensManufacturer" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OpticalLensFilterType">
+        <xs:sequence>
+            <xs:element name="cameraLensFilter" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InSituMonitoringSystem">
+        <xs:annotation>
+            <xs:documentation>The technology, including both hardware and software, used to observe and record the progress of an additive manufacturing process as it occurs in real time.  Each individual piece of monitoring technology constitutes a separate in-situ monitoring system. An in-situ monitoring system may be built into an AM System by the AM System Manufacturer, or a third-party monitoring system may be attached by the owning organization</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="inSituMonitoringSystemTechnology">
+                <xs:annotation>
+                    <xs:documentation>The technology, including both hardware and software, used to observe and record the progress of an additive manufacturing process</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="PhotonicTechnology"/>
+                        <xs:enumeration value="ThermalTechnology"/>
+                        <xs:enumeration value="OpticalTechnology"/>
+                        <xs:enumeration value="AcousticTechnology"/>
+                        <xs:enumeration value="UltrasonicTechnology"/>
+                        <xs:enumeration value="EnvironmentalTechnology"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="inSituMonitoringSystemSensingType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The type of an in-situ monitoring sensing technique</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inSituMonitoringSystemSamplingRate" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Default sampling rate: Hz for time series data; fps for evenly sampled imaging system; images/layers for layerwise imaging system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specificSubsystem" type="SpecificSubsystem"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

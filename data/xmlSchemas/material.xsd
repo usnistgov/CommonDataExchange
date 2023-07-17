@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:complexType name="PowderLot">
+        <xs:annotation>
+            <xs:documentation>Unique lot of powder material used in one or more builds</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="virginOrUsed" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>If the powder lot is new (virgin) or been used previously</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reuseNumber" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>The number of times the powder lot has been used, 0 if virgin or 1 or more if reused.  If 0 the powder has never been used, if 1 the powder has been used once, etc</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Material">
+        <xs:annotation>
+            <xs:documentation>Specific instance of a material utilized in an AM process</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="materialID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier for specific material instance</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialType" type="MaterialType">
+                <xs:annotation>
+                    <xs:documentation>Generic material this specific instance is an instantiation of</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialGrade" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Standard grade the material product conforms to</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="actualChemistry" type="Chemistry">
+                <xs:annotation>
+                    <xs:documentation>Chemistry characterization for the specific material instance, which may be different from the nominal chemistry</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStock" type="MaterialStock">
+                <xs:annotation>
+                    <xs:documentation>Stock information about the material from vendor/manufacturer</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" name="measuredMaterialProperties"
+                type="IntrinsicMaterialProperties">
+                <xs:annotation>
+                    <xs:documentation>Measured intrinsic properties of the material</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="predictedMaterialProperties" type="MaterialProperties">
+                <xs:annotation>
+                    <xs:documentation>Simulated properties for this specific material instance, which is going to be an imperfect instantiation of the ideal material and hence these properties may be slightly different from the predictedProperties found in the MaterialSpecification</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parents" type="ParentMaterial">
+                <xs:annotation>
+                    <xs:documentation>Parent or parents of material, if it is blended or mixed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MaterialStock">
+        <xs:annotation>
+            <xs:documentation>Information about a stock of material, including physical form, location, and purchasing information</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="materialStockForm" type="MaterialStockForm">
+                <xs:annotation>
+                    <xs:documentation>Form of a material stock</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStockOwner" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Owner/organization of a material stock</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStockLocation" type="Address">
+                <xs:annotation>
+                    <xs:documentation>Physical location of a material stock</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStockStorageEnvironment" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Material stock storage environment details - temperature, humidity, light</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialPackagingRequirements" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Packaging standard operating procedure and environmental tolerances required by a material product</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStorageRequirements" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Environmental tolerances, handling standard operating procedure required by a material product</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialProductSpecification" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Material data sheet provided by a material supplier or manufacturer</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialPurchaseOrderNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Reference to the internal purchase order</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialSupplier" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Name of the material vendor. not specified if material is a blend from multiple lots</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialManufacturer" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Name of the material manufacturer. not specified if material is a blend from multiple lots</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="vendorManufacturingLot" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique manufacturing lot number assigned by the manufacturer to the material stock</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStockQuantityPurchased" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Purchased quantity of a material stock</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStockCertificate" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Link to a material stock certificate</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialStockCertificationDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Purchase/certification date of a material stock</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MaterialType">
+        <xs:annotation>
+            <xs:documentation>Generic/ideal material type</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="materialName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Name of material, e.g., Inconel 625</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialTypeDescription" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description of generic/ideal material</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="baseElement" type="PeriodicElement">
+                <xs:annotation>
+                    <xs:documentation>Base element of material from periodic table</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialSpecification" type="MaterialSpecification.">
+                <xs:annotation>
+                    <xs:documentation>Ideal chemistry specification of generic material</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MaterialSpecification.">
+        <xs:annotation>
+            <xs:documentation>The ideal specification of a material, e.g., a perfect lot of Inconel 625</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="specChemistry" type="Chemistry">
+                <xs:annotation>
+                    <xs:documentation>The chemistry specification of the generic/ideal material</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="predictedProperties" type="MaterialProperties">
+                <xs:annotation>
+                    <xs:documentation>The predicted properties of the generic/ideal material</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PeriodicElement">
+        <xs:annotation>
+            <xs:documentation>Information about individual elements</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="elementName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>element name, e.g., Carbon</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="elementSymbol" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>element symbol, e.g., C.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="atomicNumber " type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>element atomic number, e.g., 6</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="atomicMass" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>element atomic mass, e.g., 12.0107 amu</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="elementMeltingPoint" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>element melting point, e.g., 3500.0 degrees Celsius</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Chemistry">
+        <xs:sequence>
+            <xs:element name="chemistryMeasurementMethod" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Measurement method for real chemistries, which may be different from nominal chemistries. Should not be included if this is a specified chemistry</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="elements" type="chemistryElement"/>
+            <xs:element name="chemistryPercentUnit" type="ChemistryPercentUnit"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="chemistryElement">
+        <xs:sequence>
+            <xs:element name="chemistryElement" type="PeriodicElement"/>
+            <xs:element name="minPercent" type="xs:double"/>
+            <xs:element name="maxPercent" type="xs:double"/>
+            <xs:element name="avgPercent" type="xs:double"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ChemistryPercentUnit">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="WeightPercent"/>
+            <xs:enumeration value="AtomicPercent"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ThermodynamicPropertiesType">
+        <xs:sequence>
+            <xs:element name="electricalConductivity" type="Measurement"/>
+            <xs:element name="thermalExpansionCoef" type="Measurement"/>
+            <xs:element name="thermalConductivity" type="Measurement"/>
+            <xs:element name="heatCapacity" type="Measurement"/>
+            <xs:element name="meltingTemperature" type="Measurement"/>
+            <xs:element name="glassTransitionTemperature" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="IntrinsicMaterialProperties">
+        <xs:annotation>
+            <xs:documentation>Properties that are independent of the AM processing/part characteristics, such as x-ray density, lattice structure, and heat capacity</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ThermodynamicProperties" type="ThermodynamicPropertiesType"> </xs:element>
+            <xs:element name="ParticleSizeDistribution" type="ParticleSizeDistributionType">
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ParticleSizeDistributionType">
+        <xs:sequence>
+            <xs:element name="psdPrincipleOfMeasurement" type="xs:string"/>
+            <xs:element name="psdParameterBasis" type="xs:string"/>
+            <xs:element name="psdDispersionMedium" type="xs:string"/>
+            <xs:element name="psdDispersionMethod" type="xs:string"/>
+            <xs:element name="psdDispersionType" type="xs:string"/>
+            <xs:element name="psdConcentration" type="Measurement"/>
+            <xs:element name="psdIndexOfRefraction" type="xs:double"/>
+            <xs:element name="psdScatteringModel" type="xs:string"/>
+            <xs:element name="psd_dv10" type="Measurement"/>
+            <xs:element name="psd_dv50" type="Measurement"/>
+            <xs:element name="psd_dv90" type="Measurement"/>
+            <xs:element name="psdMean" type="Measurement"/>
+            <xs:element name="psdMode" type="Measurement"/>
+            <xs:element name="psdStandardDeviation" type="Measurement"/>
+            <xs:element name="psdRange" type="Measurement"/>
+            <xs:element name="psdSkewness" type="Measurement"/>
+            <xs:element name="psdKurtosis" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TensilePropertyType">
+        <xs:sequence>
+            <xs:element name="tensileTestStrainRate" type="Measurement"/>
+            <xs:element name="tensileTestDisplacementRate" type="Measurement"/>
+            <xs:element name="tensileTestControlMode" type="xs:string"/>
+            <xs:element name="initialStrainRate" type="Measurement"/>
+            <xs:element name="initialLoadingRate" type="Measurement"/>
+            <xs:element name="finalStrainRate" type="Measurement"/>
+            <xs:element name="finalLoadingRate" type="Measurement"/>
+            <xs:element name="yieldStrengthZeroPoint2Percent" type="Measurement"/>
+            <xs:element name="yieldStrengthZeroPointZero2Percent" type="Measurement"/>
+            <xs:element name="ultimateTensileStrength" type="Measurement"/>
+            <xs:element name="elongation" type="Measurement"/>
+            <xs:element name="percentReductionInArea" type="Measurement"/>
+            <xs:element name="youngsModulus" type="Measurement"/>
+            <xs:element name="maximumLoad" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CreepPropertyType">
+        <xs:sequence>
+            <xs:element name="creepPanLoad" type="Measurement"/>
+            <xs:element name="creepLeverArmRatio" type="Measurement"/>
+            <xs:element name="creepTestLoad" type="Measurement"/>
+            <xs:element name="creepTestStress" type="Measurement"/>
+            <xs:element name="creepTestDuration" type="Measurement"/>
+            <xs:element name="elongationAtRuptureCreep" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ChemicalPropertyType">
+        <xs:sequence>
+            <xs:element name="oxidationResistance" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ExtrinsicMaterialProperties">
+        <xs:annotation>
+            <xs:documentation>Properties that are dependent upon the AM processing/part characteristics, such as tap density, and thermal conductivity</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="TensileProperties" type="TensilePropertyType"> </xs:element>
+            <xs:element name="CreepProperties" type="CreepPropertyType"> </xs:element>
+            <xs:element name="ChemicalProperties" type="ChemicalPropertyType"> </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MaterialProperties">
+        <xs:annotation>
+            <xs:documentation>Base class of material properties. Can be sub-classed to define specific types of material properties</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="derivedBy" type="PropertyDerivedBy">
+                <xs:annotation>
+                    <xs:documentation>How property was determined</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="propertyReferenceStandard" type="Document">
+                <xs:annotation>
+                    <xs:documentation>ASTM or other standard measurement conforms to</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="IntrinsicMaterialProperties" type="IntrinsicMaterialProperties"/>
+            <xs:element name="ExtrinsicMaterialProperties" type="ExtrinsicMaterialProperties"/>
+            <xs:element name="propertyDataSheet" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Reference document used to provide material properties</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="PropertyDerivedBy">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Measured"/>
+            <xs:enumeration value="Predicted"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MaterialStockForm">
+        <xs:annotation>
+            <xs:documentation>Form of a material stock</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Powder"/>
+            <xs:enumeration value="Wire"/>
+            <xs:enumeration value="BulkSolid"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ParentMaterial">
+        <xs:annotation>
+            <xs:documentation>Parent materials used to generate a new material instance (e.g., through powder blending or mixing)</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="parentMaterial" type="Material">
+                <xs:annotation>
+                    <xs:documentation>The parent material used to create a new material</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parentMaterialPercent" type="xs:double">
+                <xs:annotation>
+                    <xs:documentation>Percent of the new material that is comprised of this parent</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Country">
+        <xs:sequence>
+            <xs:element name="countryName" type="xs:string"/>
+            <xs:element name="countryAlpha2Code" type="xs:string"/>
+            <xs:element name="countryAlpha3Code" type="xs:string"/>
+            <xs:element name="countryCallingCode" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element name="addressLine1" type="xs:string"/>
+            <xs:element name="addressLine2" type="xs:string"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="stateProvince" type="xs:string"/>
+            <xs:element name="postalCode" type="xs:string"/>
+            <xs:element name="country" type="Country"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhoneNumber">
+        <xs:sequence>
+            <xs:element name="phoneCountry" type="Country"/>
+            <xs:element name="phoneNumber" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Person">
+        <xs:sequence>
+            <xs:element name="personID" type="xs:string"/>
+            <xs:element name="personFirstName" type="xs:string"/>
+            <xs:element name="personLastName" type="xs:string"/>
+            <xs:element name="personRole" type="xs:string"/>
+            <xs:element name="personEmail" type="xs:string"/>
+            <xs:element name="personPhoneNumber" type="PhoneNumber"/>
+            <xs:element minOccurs="0" name="personQualification" type="Qualification"/>
+            <xs:element minOccurs="0" name="personOrganization" type="Organization"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="organizationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Government"/>
+            <xs:enumeration value="University"/>
+            <xs:enumeration value="Private sector"/>
+            <xs:enumeration value="Non-profit"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Qualification">
+        <xs:sequence>
+            <xs:element name="qualificationType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="OrganizationQualification"/>
+                        <xs:enumeration value="PersonQualification"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="qualificationLevel" type="xs:string"/>
+            <xs:element name="qualifyingOrganization" type="Organization"/>
+            <xs:element name="personQualificationNumberOfHours" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Organization">
+        <xs:sequence>
+            <xs:element name="organizationID" type="xs:string"/>
+            <xs:element name="organizationName" type="xs:string"/>
+            <xs:element name="organizationType" type="organizationType"> </xs:element>
+            <xs:element minOccurs="0" name="organizationQualification" type="Qualification"/>
+            <xs:element name="organizationAddress" type="Address"/>
+            <xs:element name="organizationPhoneNumber" type="PhoneNumber"/>
+            <xs:element name="organizationPointOfContact" type="Person"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Document">
+        <xs:sequence>
+            <xs:element name="documentName" type="xs:string"/>
+            <xs:element name="documentLocation" type="xs:string"/>
+            <xs:element name="documentClassificationLevel" type="xs:string"/>
+            <xs:element name="documentClassificationIPClass" type="xs:string"/>
+            <xs:element name="documentURI" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Measurement">
+        <xs:sequence>
+            <xs:element name="measurementValue" type="xs:double"/>
+            <xs:element name="measurementUnit" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="rawDataValues" type="RawDataValue"/>
+            <xs:element name="rawDataAggregationTechnique" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RawDataValue">
+        <xs:sequence>
+            <xs:element name="rawDataTime" type="xs:dateTime"/>
+            <xs:element name="rawDataValue" type="xs:double"/>
+            <xs:element name="rawDataQuality" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

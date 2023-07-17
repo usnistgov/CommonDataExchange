@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:complexType name="System">
+        <xs:annotation>
+            <xs:documentation>System information</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="systemID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of equipment</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The name of the equipment</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemModel" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Model name of a machine defined by the machine manufacturer</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemManufacturer" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>The manufacturer of the equipment</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemType">
+                <xs:annotation>
+                    <xs:documentation>The type of equipment</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="AMSystemType"/>
+                        <xs:enumeration value="NonAMSystemType"/>
+                        <xs:enumeration value="InSituMonitoringSystemType"/>
+                        <xs:enumeration value="SpecificSubsystemType"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="systemSerialNumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The serial number of the equipment defined by the vendor</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemPurchaseDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>The purchase/certification date of the installed equipment</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemOwner" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>The owner/organization of the equipment</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemLocation" type="Address">
+                <xs:annotation>
+                    <xs:documentation>The location where the equipment is installed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemModel" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The model name of the equipment</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemCalibration" type="SystemCalibration">
+                <xs:annotation>
+                    <xs:documentation>Calibration information. A calibration event triggers a revision to the system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="maintenanceEvent" type="MaintenanceEvent">
+                <xs:annotation>
+                    <xs:documentation>Maintenance events performed on system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="software" type="Software">
+                <xs:annotation>
+                    <xs:documentation>Computer programs required for operation of this system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AMSystem">
+        <xs:annotation>
+            <xs:documentation>Additive Manufacturing System Machine and auxiliary equipment used for additive manufacturing</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="machineAcceptanceDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Date when an AM machine is certified as Installation Qualified (passes the site acceptance test, or Installation qualification)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemProcessType">
+                <xs:annotation>
+                    <xs:documentation>Process category of an AM system defined by ASTM 52900 process categories</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="LaserPowderBedFusionSystem"/>
+                        <xs:enumeration value="ElectronbeamPowderBedFusionSystem"/>
+                        <xs:enumeration value="DirectedEnergyDepositionSystem"/>
+                        <xs:enumeration value="BinderJetSystem"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="systemSubprocessType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Sub Process category of an AM system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineElectricVoltage" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Voltage for an AM Machine's electrical connection</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machinePowerIntensity" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Current intensity required to power an AM Machine</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machinePowerFrequency" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Power frequency for the electrical connection of an AM Machine</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemInstallationQualification" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A certification capturing the basic calibration and test build(s) performed after installation of machine; aka, suite acceptance report,  tied to a machine serial number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemOperationQualification" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A certification capturing process control, maintenance, calibration to ensure a stable process that meets the requirements of a material specification; tied to a machine serial number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="systemFacility" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Name of the facility where an AM system is installed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineHazmatRequirements" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A document of a link to AM Machine HAZMAT Requirements</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineCapability" type="MachineCapability">
+                <xs:annotation>
+                    <xs:documentation>Vendor provided AM machine specification</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inSituMonitoringSystem" type="InSituMonitoringSystem"/>
+            <xs:element name="specificSubsystem" type="SpecificSubsystem"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InSituMonitoringSystem">
+        <xs:annotation>
+            <xs:documentation>The technology, including both hardware and software, used to observe and record the progress of an additive manufacturing process as it occurs in real time.  Each individual piece of monitoring technology constitutes a separate in-situ monitoring system. An in-situ monitoring system may be built into an AM System by the AM System Manufacturer, or a third-party monitoring system may be attached by the owning organization</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="inSituMonitoringSystemTechnology">
+                <xs:annotation>
+                    <xs:documentation>The technology, including both hardware and software, used to observe and record the progress of an additive manufacturing process</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="PhotonicTechnology"/>
+                        <xs:enumeration value="ThermalTechnology"/>
+                        <xs:enumeration value="OpticalTechnology"/>
+                        <xs:enumeration value="AcousticTechnology"/>
+                        <xs:enumeration value="UltrasonicTechnology"/>
+                        <xs:enumeration value="EnvironmentalTechnology"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="inSituMonitoringSystemSensingType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The type of an in-situ monitoring sensing technique</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inSituMonitoringSystemSamplingRate" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Default sampling rate: Hz for time series data; fps for evenly sampled imaging system; images/layers for layerwise imaging system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specificSubsystem" type="SpecificSubsystem"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="SpecificSubsystemType">
+        <xs:annotation>
+            <xs:documentation>Describes equipment that can be interchanged from AMSystem or InSituMonitoringSystem that would be in use for a build</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BuildChamber"/>
+            <xs:enumeration value="LaserSystem"/>
+            <xs:enumeration value="RecoatingSystem"/>
+            <xs:enumeration value="GalvoScanner"/>
+            <xs:enumeration value="Camera"/>
+            <xs:enumeration value="Photodiode"/>
+            <xs:enumeration value="Pyrometer"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="SpecificSubsystem">
+        <xs:sequence>
+            <xs:element name="subsystem" type="SpecificSubsystemType"/>
+            <xs:element name="BuildChamber" type="BuildChamberType">
+                <xs:annotation>
+                    <xs:documentation>Enclosed location within the additive manufacturing system where the parts are fabricated</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildVolume" type="BuildVolume">
+                <xs:annotation>
+                    <xs:documentation>total usable volume available in the machine for building parts</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LaserSystem" type="LaserSystem"> </xs:element>
+            <xs:element name="RecoatingSystem" type="RecoatingSystemType"> </xs:element>
+            <xs:element name="GalvoScanner" type="GalvoScannerType"> </xs:element>
+            <xs:element name="Camera" type="CameraType">
+                <xs:annotation>
+                    <xs:documentation>Optical system by which objects are imaged and recorded</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CameraSubsystem" type="CameraSubsystemType"> </xs:element>
+            <xs:element name="Photodiode" type="PhotodiodeType"> </xs:element>
+            <xs:element name="Pyrometer" type="PyrometerType"> </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildChamberType">
+        <xs:sequence>
+            <xs:element name="buildEnvironmentalControl" type="BuildEnvironmentalControl">
+                <xs:annotation>
+                    <xs:documentation>Environment control of the build chamber on its temperature, pressure, humidity and oxygen level, for optimal quality of AM material transformation</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildVolume">
+        <xs:annotation>
+            <xs:documentation>Total usable volume available in the machine for building parts</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="volumeShape" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Shape of a building volume, i.e., 'box' or 'cylinder'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="volumeDimension" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>Width, Depth, Height of a building volume</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="volumeDiameter" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Diameter of a building volume if of cylinder type</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineOrigin" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>Origin X,Y,Z as defined by machine manufacturer relative to build volume center</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="totalBuildVolume" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>The total usable volume available in the AM System</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineLastCleanoutDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>The date when the build volume was last cleaned</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LaserSystem">
+        <xs:sequence>
+            <xs:element name="numberOfLasers" type="xs:int"/>
+            <xs:element name="modeOfLaserOperation" type="xs:string"/>
+            <xs:element name="laserType" type="xs:string"/>
+            <xs:element name="maxLaserPower" type="Measurement"/>
+            <xs:element name="minLaserPower" type="Measurement"/>
+            <xs:element name="ratedWaveLength" type="Measurement"/>
+            <xs:element name="beamShape" type="xs:string"/>
+            <xs:element name="beamDiameter" type="Measurement"/>
+            <xs:element name="laserBeamSpotSizeType" type="xs:string"/>
+            <xs:element name="maxBeamSpotSize" type="Measurement"/>
+            <xs:element name="minBeamSpotSize" type="Measurement"/>
+            <xs:element name="focusCorrectionType" type="xs:string"/>
+            <xs:element name="laserManufacturer" type="Organization"/>
+            <xs:element name="laserModelName" type="xs:string"/>
+            <xs:element name="laserSystemSerialNumber" type="xs:string"/>
+            <xs:element name="precisionLensMaterialType" type="Material"/>
+            <xs:element name="laserBeamProfile" type="Document"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RecoatingSystemType">
+        <xs:sequence>
+            <xs:element name="recoatingSystemType" type="xs:string"/>
+            <xs:element name="recoaterMaximumSpeed" type="Measurement"/>
+            <xs:element name="recoaterMaxUsesAllowed" type="xs:int"/>
+            <xs:element name="recoatingBlade" type="RecoatingBlade"/>
+            <xs:element name="roller" type="Roller"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="GalvoScannerType">
+        <xs:sequence>
+            <xs:element name="galvoScannerManufacturer" type="xs:string"/>
+            <xs:element name="galvoScannerModel" type="xs:string"/>
+            <xs:element name="maxScanAngleX" type="Measurement"/>
+            <xs:element name="maxScanAngleY" type="Measurement"/>
+            <xs:element name="galvoScannerRepeatability" type="Measurement"/>
+            <xs:element name="galvoScannerMaxScanSpeed" type="Measurement"/>
+            <xs:element name="galvoScannerCalibrationDate" type="xs:dateTime"/>
+            <xs:element name="galvoScannerOrigin" type="CartesianCoordinate"/>
+            <xs:element name="galvoScannerType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CameraType">
+        <xs:sequence>
+            <xs:element name="cameraImageWidth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Camera image width in pixel</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraBitDepth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Bit depth of pixel values</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastCameraCalibration" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Date of the last camera calibration</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraModel" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Model name of the camera defined by the manufacturer</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraManufacturer" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Manufacture name of the camera</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraImageHeight" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Camera image height in pixel</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraCenter" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>Width, Height center position of a camera in pixels</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraOpticalFilterBandwidth" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Bandwidth of a camera's filter bandwidth</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="detectorPitchSize" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Camera detection pitch size</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraDigitalMagnification" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Magnification factor setting of a camera</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lensOpticalMagnification" type="xs:double"/>
+            <xs:element name="minShutterSpeed" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Shutter speed of a camera</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraFrameRate" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>Framerate of a camera setting</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cameraLens" type="CameraLens"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CameraSubsystemType">
+        <xs:sequence>
+            <xs:element name="CameraLens" type="CameraLens"/>
+            <xs:element name="OpticalLensFilter" type="OpticalLensFilterType"> </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhotodiodeType">
+        <xs:sequence>
+            <xs:element name="photodiodeModel" type="xs:string"/>
+            <xs:element name="photodiodeManufacturer" type="Organization"/>
+            <xs:element name="photodiodeOpticalFilterBandwidth" type="Measurement"/>
+            <xs:element name="photodiodeBitDepth" type="Measurement"/>
+            <xs:element name="photodiodeSamplingRate" type="Measurement"/>
+            <xs:element name="lastPhotdiodeCalibration" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PyrometerType">
+        <xs:sequence>
+            <xs:element name="pyrometerModel" type="xs:string"/>
+            <xs:element name="pyrometerManufacturer" type="Organization"/>
+            <xs:element name="pyrometerOpticalFilterBandwidth1" type="Measurement"/>
+            <xs:element name="pyrometerOpticalFilterBandwidth2" type="Measurement"/>
+            <xs:element name="pyrometerBitDepth" type="Measurement"/>
+            <xs:element name="pyrometerSamplingRate" type="Measurement"/>
+            <xs:element name="lastPyrometerCalibration" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OpticalLensFilterType">
+        <xs:sequence>
+            <xs:element name="cameraLensFilter" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CameraLens">
+        <xs:sequence>
+            <xs:element name="cameraLensAperature" type="Measurement"/>
+            <xs:element name="lensManufacturer" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BuildEnvironmentalControl">
+        <xs:annotation>
+            <xs:documentation>Environment control of the build chamber on its temperature, pressure, humidity and oxygen level, for optimal quality of AM material transformation</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="shieldingGasType" type="xs:string"/>
+            <xs:element name="maximumPreheatingTemperature" type="Measurement"/>
+            <xs:element name="gasFlowNozzleType" type="xs:string"/>
+            <xs:element name="shieldingDeviceType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MachineCapability">
+        <xs:annotation>
+            <xs:documentation>Vendor-provided AM machine specification</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="processableRawMaterial" type="Material">
+                <xs:annotation>
+                    <xs:documentation>A processable raw material list of an AM machine</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="maximumBuildRate" type="Measurement"/>
+            <xs:element name="minimumLayerThickness" type="Measurement"/>
+            <xs:element name="maximumLayerThickness" type="Measurement"/>
+            <xs:element name="minimumOxygenLevel" type="Measurement"/>
+            <xs:element name="minimumMoistureLevel" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MaintenanceEvent">
+        <xs:sequence>
+            <xs:element name="maintenanceDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Date of last AM system Maintenance</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="maintenanceReport" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Technical report from the maintenance</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Software">
+        <xs:sequence>
+            <xs:element name="softwareName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A unique identifier for the software</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="softwareID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Version/configuration/OS</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="softwareVendor" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Software Vendor identification. Links to Organization foreign key</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="softwareVersion" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The version number of the software</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="softwareConfigurationSettingsFile" type="Document">
+                <xs:annotation>
+                    <xs:documentation>specific software settings document, for this project/component</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="softwareFileType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>File type (for automated processing)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RecoatingBlade">
+        <xs:sequence>
+            <xs:element name="bladeId" type="xs:string"/>
+            <xs:element name="recoatingBladeMaterial" type="Material"/>
+            <xs:element name="recoatingBladePartNumber" type="xs:string"/>
+            <xs:element name="recoatingBladeMaterialSpecification" type="Document"/>
+            <xs:element name="recoatingBladeDrawing" type="Document"/>
+            <xs:element name="recoatingRakeAngle" type="Measurement"/>
+            <xs:element name="recoatingClearanceAngle" type="Measurement"/>
+            <xs:element name="recoatingMechanismType" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Roller">
+        <xs:sequence>
+            <xs:element name="rollerId" type="xs:string"/>
+            <xs:element name="rollerMaterial" type="Material"/>
+            <xs:element name="rollerDiameter" type="Measurement"/>
+            <xs:element name="maxRollingAngularSpeed" type="Measurement"/>
+            <xs:element name="rollerSpinDirection" type="xs:string"/>
+            <xs:element name="dateOfLastRollerCleaning" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SystemCalibration">
+        <xs:annotation>
+            <xs:documentation>SpecificSubsystemType</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="calibrationId" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>ID of a calibration process</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="calibrationDate" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Date of machine calibration</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="calibrationOperator" type="Person">
+                <xs:annotation>
+                    <xs:documentation>Person performing the machine calibration. Links to Personnel ID</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="calibrationPassFail">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Pass"/>
+                        <xs:enumeration value="Fail"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="calibrationResults" type="Document">
+                <xs:annotation>
+                    <xs:documentation>The results of the equipment calibration (files, etc.)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineCalibrationNotes" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Comments of a machine calibration</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="machineCalibrationReport" type="Document">
+                <xs:annotation>
+                    <xs:documentation>Technical report from the calibration</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Country">
+        <xs:sequence>
+            <xs:element name="countryName" type="xs:string"/>
+            <xs:element name="countryAlpha2Code" type="xs:string"/>
+            <xs:element name="countryAlpha3Code" type="xs:string"/>
+            <xs:element name="countryCallingCode" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhoneNumber">
+        <xs:sequence>
+            <xs:element name="phoneCountry" type="Country"/>
+            <xs:element name="phoneNumber" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element name="addressLine1" type="xs:string"/>
+            <xs:element name="addressLine2" type="xs:string"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="stateProvince" type="xs:string"/>
+            <xs:element name="postalCode" type="xs:string"/>
+            <xs:element name="country" type="Country"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="organizationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="eMaterialManufacturer"/>
+            <xs:enumeration value="MaterialSupplier"/>
+            <xs:enumeration value="PartDesigner"/>
+            <xs:enumeration value="PartManufacturer"/>
+            <xs:enumeration value="MachineManufacturer"/>
+            <xs:enumeration value="SystemIntegrator"/>
+            <xs:enumeration value="PartTestr"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Qualification">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="qualificationType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="OrganizationQualification"/>
+                        <xs:enumeration value="PersonQualification"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="qualificationLevel" type="xs:string"/>
+            <xs:element name="qualifyingOrganization" type="Organization"/>
+            <xs:element name="personQualificationNumberOfHours" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>The number of hours that this person has completed on this equipment/software/system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Organization">
+        <xs:annotation>
+            <xs:documentation>An organization of various types</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="organizationID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The unique identifier of the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The name of an organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationType" type="organizationType">
+                <xs:annotation>
+                    <xs:documentation>The type or roles of an organization, whether it is a manufacturer, vendor, supplier, or contractor.  One organization may have many types</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="organizationQualification" type="Qualification">
+                <xs:annotation>
+                    <xs:documentation>Details of the organization's qualifications and certifications</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationAddress" type="Address">
+                <xs:annotation>
+                    <xs:documentation>The address of the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationPhoneNumber" type="PhoneNumber">
+                <xs:annotation>
+                    <xs:documentation>A phone number for the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationPointOfContact" type="Person">
+                <xs:annotation>
+                    <xs:documentation>Identification of the point of contact</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Person">
+        <xs:annotation>
+            <xs:documentation>Individuals and their primary credentials and contact information</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="personID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of the person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personFirstName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>First name of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personLastName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Last name of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personRole" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Role of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personEmail" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The email for the individual</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personPhoneNumber" type="PhoneNumber">
+                <xs:annotation>
+                    <xs:documentation>The phone number for the individual</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="personQualification" type="Qualification">
+                <xs:annotation>
+                    <xs:documentation>Qualifications of person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="personOrganization" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Links person to an organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Document">
+        <xs:annotation>
+            <xs:documentation>File of any type</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="documentName" type="xs:string"/>
+            <xs:element name="documentLocation" type="xs:string"/>
+            <xs:element name="documentClassificationLevel" type="xs:string"/>
+            <xs:element name="documentClassificationIPClass" type="xs:string"/>
+            <xs:element name="documentURI" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Measurement">
+        <xs:sequence>
+            <xs:element name="measurementValue" type="xs:double"/>
+            <xs:element name="measurementUnit" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="rawDataValues" type="RawDataValue"/>
+            <xs:element name="rawDataAggregationTechnique" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RawDataValue">
+        <xs:sequence>
+            <xs:element name="rawDataTime" type="xs:dateTime"/>
+            <xs:element name="rawDataValue" type="Measurement"/>
+            <xs:element name="rawDataQuality" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CartesianCoordinate">
+        <xs:sequence>
+            <xs:element name="xCoordinate" type="Measurement"/>
+            <xs:element name="yCoordinate" type="Measurement"/>
+            <xs:element name="zCoordinate" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Material"/>
+</xs:schema>

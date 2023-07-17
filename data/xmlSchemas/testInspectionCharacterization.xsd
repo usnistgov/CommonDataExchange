@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:complexType name="TestInspectionCharacterization">
+        <xs:annotation>
+            <xs:documentation>Any test, inspection, or characterization performed on any part or material specimen from any stage of the additive manufacturing fabrication process (excluding in-process monitoring)</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ticID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>An identifier of the test, inspection or characterization type</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A short description of the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticType" type="TICType">
+                <xs:annotation>
+                    <xs:documentation>Type of test/inspection/characterization, such as tensile test, fatigue test, etc.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticStandard" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>An identifier of the corresponding standard used</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticMaterialSpecimen" type="MaterialSpecimen"/>
+            <xs:element name="ticPartExtract" type="PartExtract"/>
+            <xs:element name="ticPart" type="Part"/>
+            <xs:element name="ticStartTime" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Start time and date of the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticEndTime" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>End time and date of the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticLocation" type="Address">
+                <xs:annotation>
+                    <xs:documentation>The physical location where the test was conducted</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticNotes" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Itemized descriptions of observations relating to the individual test, inspection, or characterization of an individual specimen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticOperator" type="Person">
+                <xs:annotation>
+                    <xs:documentation>Identifier of the operator who facilitated the test, inspection, or characterization linking to Personnel ID</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticPointOfContact" type="Person"/>
+            <xs:element name="ticVendor" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Identifier of Vendor/Supplier/Contractor who physically performed the test, inspection, or characterization linking to Organization ID</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticEquipment" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Identifier of Non-AM Equipment used during the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticSoftware" type="Software">
+                <xs:annotation>
+                    <xs:documentation>Identifier of any Software that was used during the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticProcedure" type="Document">
+                <xs:annotation>
+                    <xs:documentation>The procedure used if it is not from an existing standard</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticDestructureVsNonDestructive" type="TestType">
+                <xs:annotation>
+                    <xs:documentation>Indication of whether the test, inspection, or characterization irreversibly changed the nature of the specimen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticDuration" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>The time that the Test took (Test only)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticEnvironment" type="TICEnvironment">
+                <xs:annotation>
+                    <xs:documentation>The atmospheric conditions of the test environment</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticResult" type="TestResult"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Specimen">
+        <xs:annotation>
+            <xs:documentation>Information specific to an individual specimen. A specimen refers to the actual coupon used for a test, inspection, or characterization.  One part may contain no specimens, one specimen, or multiple specimens.  A part can also be the specimen without additional sectioning or post processing</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="specimenID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The identifier of the individual specimen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specimenDescription" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A description of the specimen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specimenMass" type="Measurement"/>
+            <xs:element name="specimenProcessHistory" type="Process">
+                <xs:annotation>
+                    <xs:documentation>Events in chronological order that occurred to a specimen after it existed in the base geometric form as specified in the applicable standard. For example, surface preparations, mounting, dye penetrant application, etc</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specimenDeviations" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Description of any differences from recommendations made in the standards for specimen configuration and preparation</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PartExtract">
+        <xs:annotation>
+            <xs:documentation>A specimen that is extracted from a Part. Not to be confused with MaterialSpecimen</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="parentPart" type="Part"/>
+            <xs:element name="specimenCoordinate" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>The location that the specimen was extracted from the original part</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specimenTestLocation" type="CartesianCoordinate">
+                <xs:annotation>
+                    <xs:documentation>Location of the test, inspection, or characterization relative to the specimen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specimenOrientation" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The orientation of the specimen relative to the AM part (the orientation with respect to the build platform can be traced through the part's orientation)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specimenExtractionMethod" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The method in which the sample or specimen was extracted from the part</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="specimenGeometry" type="Document">
+                <xs:annotation>
+                    <xs:documentation>The geometry of the specimen</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MaterialSpecimen">
+        <xs:annotation>
+            <xs:documentation>A specimen that is extracted from  a Material. Not to be confused with a PartSpecimen</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="specimenMaterialSource" type="Material"/>
+            <xs:element name="specimenSamplingMethod" type="Process"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TICEnvironment">
+        <xs:annotation>
+            <xs:documentation>The atmospheric conditions of the test, inspection, or characterization environment</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ticEnvironmentID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of test, inspection, or characterization environmental conditions</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticEnvironmentTemperature" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>The atmospheric temperature during the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticTemperatureControlMethod" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The method for controlling the temperature during the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticTemperatureMeasurementLocation" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Where the temperature was measured during the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticHumidity" type="Measurement">
+                <xs:annotation>
+                    <xs:documentation>The humidity measurement during the test, inspection, or characterization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ResultStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Pass"/>
+            <xs:enumeration value="Fail"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TestType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Destructive"/>
+            <xs:enumeration value="NonDestructive"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="TestResult">
+        <xs:sequence>
+            <xs:element name="ticPassFail" type="ResultStatus">
+                <xs:annotation>
+                    <xs:documentation>Indication of whether the results of the test, inspection, or characterization passed or failed and is for informational purposes only</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ticResultMeasurement" type="Measurement"/>
+            <xs:element name="ticReport" type="Document"/>
+            <xs:element name="ticMaterialProperty" type="MaterialProperties"/>
+            <xs:element name="NonPedigreedTestResult" type="NonPedigreedTestResultType">
+                <xs:annotation>
+                    <xs:documentation>Vendor-provided extrinsic or intrinsic material properties</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="NonPedigreedTestResultType">
+        <xs:sequence>
+            <xs:element name="testedMaterial" type="Material"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="TICType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Tensile"/>
+            <xs:enumeration value="Creep"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Process"/>
+    <xs:complexType name="MaterialProperties"/>
+    <xs:complexType name="Material"/>
+    <xs:complexType name="Software"/>
+    <xs:complexType name="NonAMSystem"/>
+    <xs:complexType name="Part"/>
+    <xs:complexType name="Country">
+        <xs:sequence>
+            <xs:element name="countryName" type="xs:string"/>
+            <xs:element name="countryAlpha2Code" type="xs:string"/>
+            <xs:element name="countryAlpha3Code" type="xs:string"/>
+            <xs:element name="countryCallingCode" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element name="addressLine1" type="xs:string"/>
+            <xs:element name="addressLine2" type="xs:string"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="stateProvince" type="xs:string"/>
+            <xs:element name="postalCode" type="xs:string"/>
+            <xs:element name="country" type="Country"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Document">
+        <xs:annotation>
+            <xs:documentation>File of any type</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="documentName" type="xs:string"/>
+            <xs:element name="documentLocation" type="xs:string"/>
+            <xs:element name="documentClassificationLevel" type="xs:string"/>
+            <xs:element name="documentClassificationIPClass" type="xs:string"/>
+            <xs:element name="documentURI" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Measurement">
+        <xs:sequence>
+            <xs:element name="measurementValue" type="xs:double"/>
+            <xs:element name="measurementUnit" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="rawDataValues" type="RawDataValue"/>
+            <xs:element name="rawDataAggregationTechnique" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RawDataValue">
+        <xs:sequence>
+            <xs:element name="rawDataTime" type="xs:dateTime"/>
+            <xs:element name="rawDataValue" type="Measurement"/>
+            <xs:element name="rawDataQuality" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CartesianCoordinate">
+        <xs:sequence>
+            <xs:element name="xCoordinate" type="Measurement"/>
+            <xs:element name="yCoordinate" type="Measurement"/>
+            <xs:element name="zCoordinate" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhoneNumber">
+        <xs:sequence>
+            <xs:element name="phoneCountry" type="Country"/>
+            <xs:element name="phoneNumber" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="organizationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="eMaterialManufacturer"/>
+            <xs:enumeration value="MaterialSupplier"/>
+            <xs:enumeration value="PartDesigner"/>
+            <xs:enumeration value="PartManufacturer"/>
+            <xs:enumeration value="MachineManufacturer"/>
+            <xs:enumeration value="SystemIntegrator"/>
+            <xs:enumeration value="PartTestr"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Qualification">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="qualificationType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="OrganizationQualification"/>
+                        <xs:enumeration value="PersonQualification"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="qualificationLevel" type="xs:string"/>
+            <xs:element name="qualifyingOrganization" type="Organization"/>
+            <xs:element name="personQualificationNumberOfHours" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>The number of hours that this person has completed on this equipment/software/system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Organization">
+        <xs:annotation>
+            <xs:documentation>An organization of various types</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="organizationID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The unique identifier of the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The name of an organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationType" type="organizationType">
+                <xs:annotation>
+                    <xs:documentation>The type or roles of an organization, whether it is a manufacturer, vendor, supplier, or contractor.  One organization may have many types</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="organizationQualification" type="Qualification">
+                <xs:annotation>
+                    <xs:documentation>Details of the organization's qualifications and certifications</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationAddress" type="Address">
+                <xs:annotation>
+                    <xs:documentation>The address of the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationPhoneNumber" type="PhoneNumber">
+                <xs:annotation>
+                    <xs:documentation>A phone number for the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationPointOfContact" type="Person">
+                <xs:annotation>
+                    <xs:documentation>Identification of the point of contact</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Person">
+        <xs:annotation>
+            <xs:documentation>Individuals and their primary credentials and contact information</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="personID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of the person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personFirstName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>First name of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personLastName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Last name of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personRole" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Role of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personEmail" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The email for the individual</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personPhoneNumber" type="PhoneNumber">
+                <xs:annotation>
+                    <xs:documentation>The phone number for the individual</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="personQualification" type="Qualification">
+                <xs:annotation>
+                    <xs:documentation>Qualifications of person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="personOrganization" type="Organization">
+                <xs:annotation>
+                    <xs:documentation>Links person to an organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:complexType name="Document">
+        <xs:annotation>
+            <xs:documentation>File of any type</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="documentName" type="xs:string"/>
+            <xs:element name="documentLocation" type="xs:string"/>
+            <xs:element name="documentClassificationLevel" type="xs:string"/>
+            <xs:element name="documentClassificationIPClass" type="xs:string"/>
+            <xs:element name="documentURI" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DatasetMetadata">
+        <xs:sequence>
+            <xs:element name="datasetName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Name of the dataset</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of the dataset</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetSubject" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Classification, keyword, or phrase that describes the topic of the dataset at the endpoint of the URI. This is a refinement of the Dublin Core definition that states this is the topic of the resource and the plurality of keywords, etc. It should be noted that the recommended best practice is to use a controlled vocabulary (per Dublin Core)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Media type, formerly known as MIME Type, a two-part identifier for file formats and format contents transmitted on the Internet. The Internet Assigned Numbers Authority (IANA) is the official authority for the standardization and publication of these classifications</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetURI" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>URI location where a dataset can be found</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datesetFormat" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Formal description language that describes the format or layout of the file, such as CSV with Headers, Protobuf, fixed position, JSON Schema, XML, Cobol Copybook, X12 and so forth</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetSchemaURI" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Location via a URI pointer to the specific Content Format Specification that describes how to parse the content in a repository; i.e., defines the schema of the content in the repository</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetCreator" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Creator of dataset and/or the metadata of the dataset</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetCreationDateTime" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Point of time associated with creation of the dataset. May be used at any level of granularity. Recommended best practice is to use an encoding scheme, such as the W3CDTF profile of ISO 8601 [W3CDTF]</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetSize" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The size of the dataset</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datesetType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Dataset type, raw data or synthesized data</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetQuantityType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Type of Measurement(s) that would appear in a dataset; e.g., pH, Moisture, Temperature, requiring an industry group to define the enumerated list/controlled vocabulary for the specific business context</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetKeyTags" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Keywords and tags describing the data to facilitate search and findability.  Examples include 'meltpool temperature', 'meltpool size', and 'layer-wise image</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="datasetAccessControl">
+                <xs:annotation>
+                    <xs:documentation>How to get access to the dataset. Control Code Type is used to communicate 'Restricted', 'Consent', and 'Public'</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Restricted"/>
+                        <xs:enumeration value="Public"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RawDataValue">
+        <xs:sequence>
+            <xs:element name="rawDataTime" type="xs:dateTime"/>
+            <xs:element name="rawDataValue" type="Measurement"/>
+            <xs:element name="rawDataQuality" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Measurement">
+        <xs:sequence>
+            <xs:element name="measurementValue" type="xs:double"/>
+            <xs:element name="measurementUnit" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" name="rawDataValues" type="RawDataValue"/>
+            <xs:element name="rawDataAggregationTechnique" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CartesianCoordinate">
+        <xs:sequence>
+            <xs:element name="xCoordinate" type="Measurement"/>
+            <xs:element name="yCoordinate" type="Measurement"/>
+            <xs:element name="zCoordinate" type="Measurement"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Country">
+        <xs:sequence>
+            <xs:element name="countryName" type="xs:string"/>
+            <xs:element name="countryAlpha2Code" type="xs:string"/>
+            <xs:element name="countryAlpha3Code" type="xs:string"/>
+            <xs:element name="countryCallingCode" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhoneNumber">
+        <xs:sequence>
+            <xs:element name="phoneCountry" type="Country"/>
+            <xs:element name="phoneNumber" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element name="addressLine1" type="xs:string"/>
+            <xs:element name="addressLine2" type="xs:string"/>
+            <xs:element name="city" type="xs:string"/>
+            <xs:element name="stateProvince" type="xs:string"/>
+            <xs:element name="postalCode" type="xs:string"/>
+            <xs:element name="country" type="Country"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="organizationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="eMaterialManufacturer"/>
+            <xs:enumeration value="MaterialSupplier"/>
+            <xs:enumeration value="PartDesigner"/>
+            <xs:enumeration value="PartManufacturer"/>
+            <xs:enumeration value="MachineManufacturer"/>
+            <xs:enumeration value="SystemIntegrator"/>
+            <xs:enumeration value="PartTestr"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Qualification">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="qualificationType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="OrganizationQualification"/>
+                        <xs:enumeration value="PersonQualification"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="qualificationLevel" type="xs:string"/>
+            <xs:element name="qualifyingOrganization" type="Organization"/>
+            <xs:element name="personQualificationNumberOfHours" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>The number of hours that this person has completed on this equipment/software/system</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Organization">
+        <xs:annotation>
+            <xs:documentation>An organization of various types</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="organizationID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The unique identifier of the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The name of an organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationType" type="organizationType">
+                <xs:annotation>
+                    <xs:documentation>The type or roles of an organization, whether it is a manufacturer, vendor, supplier, or contractor.  One organization may have many types</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationQualification" type="Qualification" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Details of the organization's qualifications and certifications</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationAddress" type="Address">
+                <xs:annotation>
+                    <xs:documentation>The address of the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationPhoneNumber" type="PhoneNumber">
+                <xs:annotation>
+                    <xs:documentation>A phone number for the organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organizationPointOfContact" type="Person">
+                <xs:annotation>
+                    <xs:documentation>Identification of the point of contact</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Person">
+        <xs:annotation>
+            <xs:documentation>Individuals and their primary credentials and contact information</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="personID" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Unique identifier of the person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personFirstName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>First name of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personLastName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Last name of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personRole" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Role of individual performing task</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personEmail" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The email for the individual</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personPhoneNumber" type="PhoneNumber">
+                <xs:annotation>
+                    <xs:documentation>The phone number for the individual</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personQualification" type="Qualification" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Qualifications of person</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="personOrganization" type="Organization" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Links person to an organization</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
